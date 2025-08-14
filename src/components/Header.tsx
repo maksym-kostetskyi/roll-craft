@@ -46,6 +46,14 @@ const Header: React.FC<HeaderProps> = ({ balance, multiplier }) => {
         <div className="text-xs text-gray-300 uppercase tracking-wider">
           Casino
         </div>
+        <motion.h1
+          className="text-xl md:text-2xl font-bold text-white mt-2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          Roll Craft
+        </motion.h1>
       </div>
 
       {/* Balance */}
@@ -72,32 +80,6 @@ const Header: React.FC<HeaderProps> = ({ balance, multiplier }) => {
             {multiplier}
           </motion.div>
         )}
-      </div>
-
-      {/* Bottom Stats */}
-      <div className="flex justify-center items-center space-x-6 mt-4 text-sm">
-        <div className="flex items-center space-x-1">
-          <Gem className="w-4 h-4 text-green-400" />
-          <span className="text-green-400 font-semibold">5</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center">
-            <span className="text-white font-bold text-xs">x2</span>
-          </div>
-          <span className="text-blue-400 font-semibold">1</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-4 h-4 bg-yellow-500 rounded flex items-center justify-center">
-            <span className="text-black font-bold text-xs">0</span>
-          </div>
-          <span className="text-yellow-400 font-semibold">1</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
-            <span className="text-white font-bold text-xs">💣</span>
-          </div>
-          <span className="text-red-400 font-semibold">1</span>
-        </div>
       </div>
     </motion.header>
   );
