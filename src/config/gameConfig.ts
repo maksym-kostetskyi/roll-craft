@@ -8,7 +8,8 @@ export const GAME_CONFIG = {
   CASH_CELLS: 5,
   BOMB_CELLS: 1,
   MULTIPLIER_CELLS: 1,
-  EMPTY_CELLS: 2,
+  EMPTY_CELLS: 1,
+  STOP_CELLS: 1,
 
   // Cash value ranges (in order from lowest to highest)
   CASH_VALUES: [100, 500, 1000, 10000, 200000],

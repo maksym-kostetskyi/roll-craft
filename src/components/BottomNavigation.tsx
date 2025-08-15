@@ -1,13 +1,19 @@
 import { motion } from "framer-motion";
-import { Star, Wrench, Trophy, Truck, FileText } from "lucide-react";
+
+// Import SVG icons as URLs
+import officeIcon from "../assets/Tapbar/office.svg";
+import resourceIcon from "../assets/Tapbar/Resource.svg";
+import materialsIcon from "../assets/Tapbar/Materials.svg";
+import goodsIcon from "../assets/Tapbar/Goods.svg";
+import stockIcon from "../assets/Tapbar/Stock.svg";
 
 const BottomNavigation = () => {
   const navItems = [
-    { icon: Star, label: "Favorites", isActive: false },
-    { icon: Wrench, label: "Tools", isActive: false },
-    { icon: Trophy, label: "Games", isActive: true },
-    { icon: Truck, label: "Delivery", isActive: false },
-    { icon: FileText, label: "Documents", isActive: false },
+    { icon: officeIcon, label: "Office", isActive: false },
+    { icon: resourceIcon, label: "Resources", isActive: false },
+    { icon: materialsIcon, label: "Materials", isActive: true },
+    { icon: goodsIcon, label: "Goods", isActive: false },
+    { icon: stockIcon, label: "Stock", isActive: false },
   ];
 
   return (
@@ -30,7 +36,7 @@ const BottomNavigation = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 + index * 0.1 }}
           >
-            <item.icon className="w-6 h-6" />
+            <img src={item.icon} alt={item.label} className="w-6 h-6" />
             <span className="text-xs font-medium">{item.label}</span>
           </motion.button>
         ))}

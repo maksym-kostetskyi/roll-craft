@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gem } from "lucide-react";
 import { useState, useEffect } from "react";
+import cashIcon from "../assets/icons/cash.png";
 
 interface FlyingMoneyProps {
   isVisible: boolean;
@@ -11,45 +11,69 @@ interface FlyingMoneyProps {
   onComplete: () => void;
 }
 
+const FlyingCashIcon: React.FC<{
+  startPosition: { x: number; y: number };
+  endPosition: { x: number; y: number };
+  delay: number;
+  onComplete?: () => void;
+}> = ({ startPosition, endPosition, delay, onComplete }) => {
+  return (
+    <motion.div
+      className="fixed z-50 pointer-events-none"
+      initial={{
+        x: startPosition.x - 24, // Center the 48px icon (doubled size)
+        y: startPosition.y - 24,
+        scale: 2, // Start twice as big
+        opacity: 1,
+      }}
+      animate={{
+        x: endPosition.x - 12,
+        y: endPosition.y - 12,
+        scale: 0.5,
+        opacity: 0, // Fade out completely at the end
+      }}
+      transition={{
+        duration: 0.8,
+        delay,
+        ease: "easeInOut",
+      }}
+      onAnimationComplete={onComplete}
+    >
+      <img src={cashIcon} alt="Cash" className="w-6 h-6" />
+    </motion.div>
+  );
+};
+
 const FlyingMoney: React.FC<FlyingMoneyProps> = ({
   isVisible,
-  amount,
+  // amount is passed but not used in current implementation - could be used for dynamic icon count
+  amount: _amount,
   startPosition,
   endPosition,
   onComplete,
 }) => {
+  const totalIcons = 5;
+
+  const handleIconComplete = () => {
+    onComplete();
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
-          className="fixed z-50 pointer-events-none"
-          initial={{
-            x: startPosition.x,
-            y: startPosition.y,
-            scale: 1,
-            opacity: 1,
-          }}
-          animate={{
-            x: endPosition.x,
-            y: endPosition.y,
-            scale: 0.7,
-            opacity: 0.8,
-          }}
-          exit={{
-            scale: 0.3,
-            opacity: 0,
-          }}
-          transition={{
-            duration: 1,
-            ease: "easeInOut",
-          }}
-          onAnimationComplete={onComplete}
-        >
-          <div className="flex items-center space-x-1 bg-green-500 text-white px-2 py-1 rounded-full text-sm font-bold shadow-lg">
-            <Gem className="w-4 h-4" />
-            <span>+{amount.toLocaleString()}</span>
-          </div>
-        </motion.div>
+        <>
+          {Array.from({ length: totalIcons }, (_, index) => (
+            <FlyingCashIcon
+              key={`cash-${index}`}
+              startPosition={startPosition}
+              endPosition={endPosition}
+              delay={index * 0.1} // Stagger each icon by 100ms
+              onComplete={
+                index === totalIcons - 1 ? handleIconComplete : undefined
+              }
+            />
+          ))}
+        </>
       )}
     </AnimatePresence>
   );

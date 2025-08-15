@@ -1,13 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
-import { Gem, Bomb } from "lucide-react";
 import { Cell } from "../types";
 import {
   useSoundEffects,
   createParticleEffect,
 } from "../hooks/useSoundEffects";
 import { getCashColorScheme, formatCurrency } from "../config/gameConfig";
+import cashIcon from "../assets/icons/cash-l.png";
+import zeroIcon from "../assets/icons/zero-l.png";
+import bombIcon from "../assets/icons/bomb-l.png";
+import stopIcon from "../assets/icons/stop-l.png";
+import x2Icon from "../assets/icons/x2-l.png";
+import lightOverlay from "../assets/light.png";
 
 interface GameCellProps {
   cell: Cell;
@@ -46,6 +51,8 @@ const GameCell: React.FC<GameCellProps> = ({
           playSound("multiplier");
         } else if (cell.type === "bomb") {
           playSound("bomb");
+        } else if (cell.type === "stop") {
+          playSound("click"); // Or add a specific stop sound
         }
       }
     }, 300);
@@ -67,30 +74,81 @@ const GameCell: React.FC<GameCellProps> = ({
 
         return (
           <div
-            className={`w-full h-full ${colorScheme.bg} rounded-lg border-2 ${colorScheme.border} flex flex-col items-center justify-center text-white animate-bounce-in shadow-lg`}
+            className={`w-full h-full ${colorScheme.bg} rounded-lg border-2 ${colorScheme.border} flex flex-col items-center justify-center text-white animate-bounce-in shadow-lg relative overflow-hidden`}
+            style={{
+              backgroundColor: `${colorScheme.bg.replace("bg-", "")}80`,
+            }}
           >
-            <Gem className="w-6 h-6 mb-1" />
-            <span className="text-xs font-bold">
+            <img
+              src={lightOverlay}
+              alt="Light overlay"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-50"
+            />
+            <img
+              src={cashIcon}
+              alt="Cash"
+              className="w-1/2 h-1/2 mb-1 relative z-10"
+            />
+            <span className="text-xs font-bold relative z-10">
               {formatCurrency(cell.value)}
             </span>
           </div>
         );
       case "multiplier":
         return (
-          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg border-2 border-blue-400 flex items-center justify-center text-white animate-bounce-in glow-effect shadow-lg">
-            <span className="text-2xl font-bold">x2</span>
+          <div className="w-full h-full bg-gradient-to-br from-blue-500/50 to-blue-700/50 rounded-lg border-2 border-blue-400 flex items-center justify-center text-white animate-bounce-in glow-effect shadow-lg relative overflow-hidden">
+            <img
+              src={lightOverlay}
+              alt="Light overlay"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-50"
+            />
+
+            <img src={x2Icon} alt="x2-l" className="w-1/3 h-1/3" />
           </div>
         );
       case "bomb":
         return (
-          <div className="w-full h-full bg-gradient-to-br from-red-500 to-red-700 rounded-lg border-2 border-red-400 flex items-center justify-center text-white animate-bounce-in bomb-explode shadow-lg">
-            <Bomb className="w-8 h-8" />
+          <div className="w-full h-full bg-gradient-to-br from-red-500/50 to-red-700/50 rounded-lg border-2 border-red-400 flex items-center justify-center text-white animate-bounce-in bomb-explode shadow-lg relative overflow-hidden">
+            <img
+              src={lightOverlay}
+              alt="Light overlay"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-50"
+            />
+            <img
+              src={bombIcon}
+              alt="Bomb"
+              className="w-1/2 h-1/2 relative z-10"
+            />
           </div>
         );
       case "empty":
         return (
-          <div className="w-full h-full bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-lg border-2 border-yellow-400 flex items-center justify-center text-black animate-bounce-in shadow-lg">
-            <span className="text-2xl font-bold">0</span>
+          <div className="w-full h-full bg-gradient-to-br from-yellow-500/50 to-yellow-700/50 rounded-lg border-2 border-yellow-400 flex items-center justify-center text-black animate-bounce-in shadow-lg relative overflow-hidden">
+            <img
+              src={lightOverlay}
+              alt="Light overlay"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-50"
+            />
+            <img
+              src={zeroIcon}
+              alt="Zero"
+              className="w-1/2 h-1/2 relative z-10"
+            />
+          </div>
+        );
+      case "stop":
+        return (
+          <div className="w-full h-full bg-gradient-to-br from-orange-500/50 to-orange-700/50 rounded-lg border-2 border-orange-400 flex items-center justify-center text-white animate-bounce-in shadow-lg relative overflow-hidden">
+            <img
+              src={lightOverlay}
+              alt="Light overlay"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-50"
+            />
+            <img
+              src={stopIcon}
+              alt="Stop"
+              className="w-1/2 h-1/2 relative z-10"
+            />
           </div>
         );
       default:
@@ -106,7 +164,8 @@ const GameCell: React.FC<GameCellProps> = ({
   return (
     <motion.div
       ref={cellRef}
-      className={`aspect-square w-24 h-24 md:w-28 md:h-28 cursor-pointer transition-all duration-200 ${getHoverEffect()} ${
+      data-cell-id={cell.id}
+      className={`aspect-square w-full cursor-pointer transition-all duration-200 ${getHoverEffect()} ${
         isFlipping ? "animate-flip" : ""
       }`}
       onClick={handleClick}

@@ -16,7 +16,7 @@ const GameGrid: React.FC<GameGridProps> = ({
 }) => {
   return (
     <motion.div
-      className="grid grid-cols-3 gap-4 max-w-sm mx-auto p-4"
+      className="grid grid-cols-3 gap-3 w-full max-w-sm mx-auto p-2"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.3 }}

@@ -1,11 +1,12 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gem, RotateCcw, X } from "lucide-react";
+import stopIcon from "../assets/icons/stop-l.png";
 
 interface GameModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: "win" | "lose" | "claim";
+  type: "win" | "lose" | "claim" | "stop";
   balance: number;
   onNewGame: () => void;
 }
@@ -27,6 +28,14 @@ const GameModal: React.FC<GameModalProps> = ({
           buttonText: "Take a hit",
           buttonColor: "bg-red-500 hover:bg-red-600",
           showDefuse: true,
+        };
+      case "stop":
+        return {
+          title: "Game over!",
+          subtitle: "You've landed on a Stop field",
+          buttonText: "Claim",
+          buttonColor: "bg-green-500 hover:bg-green-600",
+          showDefuse: false,
         };
       case "win":
       case "claim":
@@ -124,6 +133,20 @@ const GameModal: React.FC<GameModalProps> = ({
                 </motion.div>
               )}
 
+              {/* Stop visual for stop state */}
+              {type === "stop" && (
+                <motion.div
+                  className="mb-6"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.4, type: "spring" }}
+                >
+                  <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-red-800 rounded-full mx-auto mb-2 flex items-center justify-center border-4 border-white">
+                    <img src={stopIcon} alt="Stop" className="w-10 h-10" />
+                  </div>
+                </motion.div>
+              )}
+
               {/* Balance display */}
               <motion.div
                 className="flex items-center justify-center space-x-2 mb-6"
@@ -138,6 +161,20 @@ const GameModal: React.FC<GameModalProps> = ({
                     : balance.toLocaleString()}
                 </span>
               </motion.div>
+
+              {type === "stop" && (
+                <motion.p
+                  className="text-green-300 text-sm mb-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  Your earnings amount is{" "}
+                  {balance >= 100000
+                    ? `${(balance / 1000).toFixed(0)}K`
+                    : balance.toLocaleString()}
+                </motion.p>
+              )}
 
               {type === "lose" && (
                 <motion.p

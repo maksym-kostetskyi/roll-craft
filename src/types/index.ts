@@ -1,4 +1,4 @@
-export type CellType = "cash" | "bomb" | "multiplier" | "empty";
+export type CellType = "cash" | "bomb" | "multiplier" | "empty" | "stop";
 
 export interface Cell {
   id: number;
@@ -14,6 +14,7 @@ export interface GameState {
   multiplier: number;
   gameStatus: "playing" | "won" | "lost";
   revealedCells: number[];
+  endReason?: "bomb" | "stop" | "manual";
 }
 
 export interface ModalProps {
