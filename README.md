@@ -2,6 +2,10 @@
 
 A mobile-first React-based minesweeper-style mini-game with stunning animations and responsive design. Built with modern web technologies for an engaging gaming experience.
 
+## 🚀 Live Demo
+
+https://maksym-kostetskyi.github.io/roll-craft/ 
+
 ## 🎮 Game Features
 
 ### Core Gameplay
@@ -62,7 +66,7 @@ npm run dev
 
 ### Development
 
-Open [http://localhost:5173](http://localhost:5173) to view the game in your browser.
+Open http://localhost:5173 to view the game in your browser.
 
 ## 📱 Responsive Design
 
