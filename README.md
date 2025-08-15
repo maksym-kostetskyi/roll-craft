@@ -1,4 +1,4 @@
-# Roll Craft - Star Industry Game 🎰
+# Roll Craft - Star Industry Game 🎮
 
 A mobile-first React-based minesweeper-style mini-game with stunning animations and responsive design. Built with modern web technologies for an engaging gaming experience.
 
